@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Quản Lý Bất Động Sản</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0px;
+    background-color: #82a0a2;
+  }
+  .navbar {
+    background-color: #82a0a2;
+    overflow: hidden;
+	}
+	.navbar ul {
+    list-style-type: none;
+   	margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-align: center;
+	}
+	.navbar li {
+    display: inline-block;
+	}
+	.navbar a {
+    display: block;
+    color: #224349;
+    text-align: center;
+    padding: 20px 20px;
+    text-decoration: none;
+    font-size: 20px;
+	}
+	.navbar a:hover {
+    background-color: #28474d;
+    color: white;
+	}
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #82a0a2;
+    color: white;     
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  th {
+    background-color:  #28474d;
+    font-size: 20px;
+  }
+  button {
+    padding: 10px;
+    margin-right: 5px;
+    margin-top:5px;
+    background-color: #28474d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+    font-size: 20px;
+  }
+  button:hover{
+ 		background-color: #82a0a2;
+  	color: white;
+	}
+  .modal-content{
+    background-color: #82a0a2;
+    border-radius: 3px;
+    color: white;
+  }
+  input[type=text] {
+    width: 50%;
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  input[type=number] {
+    width: 50%;
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  label {
+  margin-bottom: 15px;
+  display: block;
+  font-size: 18px;
+  }
+</style>
+</head>
+<body>
+<nav class="navbar">
+        <ul>
+            <li><a href="#home">Trang chủ</a></li>
+            <li><a href="#about">Giới thiệu</a></li>
+            <li><a href="#property">Bất động sản</a></li>
+            <li><a href="#contract">Hợp đồng</a></li>
+            <li><a href="#contact">Liên hệ</a></li>
+            <li><a href="#search"><i class="fa fa-search"></i></a><li>
+            <li><a href="#login"><i class="fa fa-fw fa-user"></i></a><li>
+        </ul>
+</nav>
+<h1 style="text-align: center; color: white;">Danh Sách Bất Động Sản</h1>
+<table id="propertyTable">
+    <tr>
+       <th>Mã bất động sản</th>
+       <th>Tên Bất Động Sản</th>
+       <th>Loại bất động sản</th>
+       <th>Diện tích</th>
+       <th>Giá bán</th>
+       <th>Tỉnh/Thành phố</th>
+       <th>Quận/Huyện</th>
+       <th>Số lượng phòng ngủ</th>
+       <th>Số lượng phòng tắm</th>
+       <th>Trạng thái</th>
+       <th>Dịch vụ</th>
+       <th>Hành động</th>
+   </tr>
+   <!-- Dữ liệu bất động sản sẽ được thêm vào đây từ phía server -->
+</table>
+<button onclick="openModal('add')">Thêm Bất Động Sản</button>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" style="font-size: 40px; text-align: left;" onclick="closeModal()">&times;</span>
+        <h1 id="modalTitle" style="text-align: center">Thêm Bất Động Sản</h1>
+        <form id="propertyForm">
+            <div class="modal" style="text-align: center;">
+                    <input type="hidden" id="propertyId" name="propertyId">
+
+                    <label for="propertyName">Tên Bất Động Sản:</label>
+                    <input type="text" id="propertyName" name="propertyName" required>
+
+                    <label for="propertyType">Loại Bất Động Sản:</label>
+                    <input type="text" id="propertyType" name="propertyType" required>
+
+                    <label for="propertyArea">Diện Tích:</label>
+                    <input type="text" id="propertyArea" name="propertyArea" required>
+
+                    <label for="propertyPrice">Giá Bán:</label>
+                    <input type="text" id="propertyPrice" name="propertyPrice" required>
+
+                    <label for="propertyCity">Tỉnh/Thành Phố:</label>
+                    <input type="text" id="propertyCity" name="propertyCity" required>
+
+                    <label for="propertyDistrict">Quận/Huyện:</label>
+                    <input type="text" id="propertyDistrict" name="propertyDistrict" required>
+
+                    <label for="propertyBedrooms">Số Lượng Phòng Ngủ:</label>
+                    <input type="number" id="propertyBedrooms" name="propertyBedrooms" required>
+
+                    <label for="propertyBathrooms">Số Lượng Phòng Tắm:</label>
+                    <input type="number" id="propertyBathrooms" name="propertyBathrooms" required>
+
+                    <label for="propertyStatus">Trạng Thái:</label>
+                    <input type="text" id="propertyStatus" name="propertyStatus" required>
+
+                    <label for="propertyServices">Dịch Vụ:</label>
+                    <input type="text" id="propertyServices" name="propertyServices" required>
+                    <br>
+                    <button type="button"  onclick="saveProperty()">Lưu</button>
+                    </br>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var properties = [
+        { 
+            id: 1, 
+            name: "Bất động sản 1", 
+            type: "Nhà ở", 
+            area: "100m2",
+            price: "2000$", 
+            city: "Hà Nội", 
+            district: "Ba Đình", 
+            bedrooms: 3, 
+            bathrooms: 2, 
+            status: "Còn trống", 
+            services: "Wifi, TV, điều hòa", 
+           
+        },
+        { 
+            id: 2, 
+            name: "Bất động sản 2", 
+            type: "Chung cư", 
+            area: "80m2",
+            price: "2000$", 
+            city: "Hồ Chí Minh", 
+            district: "Quận 1", 
+            bedrooms: 2, 
+            bathrooms: 1, 
+            status: "Đã cho thuê", 
+            services: "Bảo vệ 24/7, hồ bơi", 
+     
+        },
+        { 
+            id: 3, 
+            name: "Bất động sản 3", 
+            type: "Biệt thự", 
+            area: "300m2",
+            price: "2000$", 
+            city: "Đà Nẵng", 
+            district: "Ngũ Hành Sơn", 
+            bedrooms: 4, 
+            bathrooms: 3, 
+            status: "Chưa bán", 
+            services: "Sân vườn, garage riêng", 
+          
+        }
+    ];
+
+    function displayProperties() {
+        var table = document.getElementById("propertyTable");
+        while (table.rows.length > 1) {
+            table.deleteRow(1);
+        }
+
+        properties.forEach(function(property) {
+            var row = table.insertRow(-1);
+            var idCell = row.insertCell(0);
+            var nameCell = row.insertCell(1);
+            var typeCell = row.insertCell(2);
+            var areaCell = row.insertCell(3);
+            var priceCell = row.insertCell(4);
+            var cityCell = row.insertCell(5);
+            var districtCell = row.insertCell(6);
+            var bedroomsCell = row.insertCell(7);
+            var bathroomsCell = row.insertCell(8);
+            var statusCell = row.insertCell(9);
+            var servicesCell = row.insertCell(10);
+            var actionCell = row.insertCell(11);
+            idCell.textContent = property.id;
+            nameCell.textContent = property.name;
+            typeCell.textContent = property.type;
+            areaCell.textContent = property.area;
+            priceCell.textContent= property.price;
+            cityCell.textContent = property.city;
+            districtCell.textContent = property.district;
+            bedroomsCell.textContent = property.bedrooms;
+            bathroomsCell.textContent = property.bathrooms;
+            statusCell.textContent = property.status;
+            servicesCell.textContent = property.services;
+            var editButton = document.createElement("button");
+            editButton.textContent = "Cập Nhật";
+            editButton.onclick = function() {
+                openModal('update', property.id, property.name, property.type, property.area, property.price, property.city, property.district, property.bedrooms, property.bathrooms, property.status, property.services);
+            };
+
+            var deleteButton = document.createElement("button");
+            deleteButton.textContent = "Xóa";
+            deleteButton.onclick = function() {
+                deleteProperty(property.id);
+            };
+
+            actionCell.appendChild(editButton);
+            actionCell.appendChild(deleteButton);
+        });
+    }
+
+    function openModal(action, id, name, type, area, price, city, district, bedrooms, bathrooms, status, services) {
+        var modal = document.getElementById("myModal");
+        var modalTitle = document.getElementById("modalTitle");
+        var propertyIdInput = document.getElementById("propertyId");
+        var propertyNameInput = document.getElementById("propertyName");
+        var propertyTypeInput = document.getElementById("propertyType");
+        var propertyAreaInput = document.getElementById("propertyArea");
+        var propertyPriceInput = document.getElementById("propertyPrice");
+        var propertyCityInput = document.getElementById("propertyCity");
+        var propertyDistrictInput = document.getElementById("propertyDistrict");
+        var propertyBedroomsInput = document.getElementById("propertyBedrooms");
+        var propertyBathroomsInput = document.getElementById("propertyBathrooms");
+        var propertyStatusInput = document.getElementById("propertyStatus");
+        var propertyServicesInput = document.getElementById("propertyServices");
+        
+        if (action === 'add') {
+            modalTitle.textContent = "Thêm Bất Động Sản";
+            propertyNameInput.value = "";
+            propertyTypeInput.value = "";
+            propertyAreaInput.value = "";
+            propertyPriceInput.value = "";
+            propertyCityInput.value = "";
+            propertyDistrictInput.value = "";
+            propertyBedroomsInput.value = "";
+            propertyBathroomsInput.value = "";
+            propertyStatusInput.value = "";
+            propertyServicesInput.value = ""; 
+        } else if (action === 'update') {
+            modalTitle.textContent = "Cập Nhật Bất Động Sản";
+            propertyIdInput.value = id;
+            propertyNameInput.value = name;
+            propertyTypeInput.value = type;
+            propertyAreaInput.value = area;
+            propertyPriceInput.value = price;
+            propertyCityInput.value = city;
+            propertyDistrictInput.value = district;
+            propertyBedroomsInput.value = bedrooms;
+            propertyBathroomsInput.value = bathrooms;
+            propertyStatusInput.value = status;
+            propertyServicesInput.value = services;
+        }
+
+        modal.style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+
+    function saveProperty() {
+        var propertyId = document.getElementById("propertyId").value;
+        var propertyName = document.getElementById("propertyName").value;
+        var propertyType = document.getElementById("propertyType").value;
+        var propertyArea = document.getElementById("propertyArea").value;
+        var propertyPrice = document.getElementById("propertyPrice").value;
+        var propertyCity = document.getElementById("propertyCity").value;
+        var propertyDistrict = document.getElementById("propertyDistrict").value;
+        var propertyBedrooms = parseInt(document.getElementById("propertyBedrooms").value);
+        var propertyBathrooms = parseInt(document.getElementById("propertyBathrooms").value);
+        var propertyStatus = document.getElementById("propertyStatus").value;
+        var propertyServices = document.getElementById("propertyServices").value;
+        if (propertyId === "") {
+            var newProperty = {
+            id: properties.length + 1,
+            name: propertyName,
+            type: propertyType,
+            area: propertyArea,
+            price: propertyPrice,
+            city: propertyCity,
+            district: propertyDistrict,
+            bedrooms: parseInt(propertyBedrooms),
+            bathrooms: parseInt(propertyBathrooms),
+            status: propertyStatus,
+            services: propertyServices,
+            };
+            properties.push(newProperty);
+        } else {
+            // Cập nhật
+            var index = properties.findIndex(function(property) {
+                return property.id === parseInt(propertyId);
+            });
+
+            if (index !== -1) {
+                properties[index].name = propertyName;
+                properties[index].type = propertyType;
+                properties[index].area = propertyArea;
+                properties[index].price = propertyPrice;
+                properties[index].city = propertyCity;
+                properties[index].district = propertyDistrict;
+                properties[index].bedrooms = propertyBedrooms;
+                properties[index].bathrooms = propertyBathrooms;
+                properties[index].status = propertyStatus;
+                properties[index].services = propertyServices;
+            }
+        }
+
+        displayProperties();
+        closeModal();
+    }
+
+    function deleteProperty(id) {
+        var index = properties.findIndex(function(property) {
+            return property.id === id;
+        });
+
+        if (index !== -1) {
+            properties.splice(index, 1);
+            displayProperties();
+        }
+    }
+
+    displayProperties();
+</script>
+
+</body>
+</html>
